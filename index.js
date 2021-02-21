@@ -1,11 +1,10 @@
-import childProcess from 'child_process';
-import path from 'path';
-import fs, { readdirSync } from 'fs';
-const __dirname = path.resolve();
+const childProcess = require('child_process');
+const path = require('path');
+const fs = require('fs');
 
 // Get all folders within project and map it with the prefix as index
 let folders = {};
-readdirSync(__dirname, { withFileTypes: true })
+fs.readdirSync(__dirname, { withFileTypes: true })
     .filter(reg => reg.isDirectory())
     .forEach(dir => {
         const idx = dir.name.split("_")[0];
@@ -28,4 +27,5 @@ if (!fs.existsSync(file)) {
 }
 
 // Execute file script
-childProcess.fork(file);
+const params = process.argv.slice(2);
+childProcess.fork(file, params);
