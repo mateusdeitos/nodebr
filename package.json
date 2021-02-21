@@ -1,0 +1,13 @@
+{
+  "name": "curso-node-br",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "clear && node --experimental-modules index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
