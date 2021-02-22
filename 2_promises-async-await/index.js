@@ -1,5 +1,4 @@
-import { resolve } from 'path';
-import util from 'util';
+const util = require('util');
 
 const obterUsuario = () => {
     // erro -> reject(erro)
