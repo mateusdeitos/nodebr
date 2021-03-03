@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "clear && node index.js"
+    "start": "clear && node index.js",
+    "test": "mocha ./9_cli/test.js"
   },
   "dependencies": {
     "axios": "^0.21.1"
