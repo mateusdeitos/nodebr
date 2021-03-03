@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "clear && npx tsc && node --experimental-modules index.js"
+    "start": "clear && node index.js"
   },
   "dependencies": {
     "axios": "^0.21.1"
