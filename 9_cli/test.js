@@ -20,4 +20,18 @@ describe('Suite de manipulação de Herois', () => {
 
         deepStrictEqual(result, expected);
     })
+
+    it('deve remover um heroi por id', async () => {
+        const expected = true;
+        const resultado = await database.remover(DEFAULT_ITEM_CADASTRADO.id);
+
+        deepStrictEqual(resultado, expected);
+    })
+
+    it('deve atualizar um heroi pelo id', async () => {
+        await database.cadastrar(DEFAULT_ITEM_CADASTRADO);
+        const expected = { ...DEFAULT_ITEM_CADASTRADO, nome: 'Batman', poder: 'dinheiro' };
+        const resultado = await database.atualizar(expected.id, expected);
+        deepStrictEqual(resultado, expected);
+    })
 })

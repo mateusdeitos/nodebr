@@ -27,5 +27,5 @@ if (!fs.existsSync(file)) {
 }
 
 // Execute file script
-const params = process.argv.slice(2);
+const params = process.argv.slice(3);
 childProcess.fork(file, params);

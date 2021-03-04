@@ -21,7 +21,7 @@ class Database {
     }
 
     async limparArquivo() {
-        await this.escreverArquivo('');
+        await this.escreverArquivo([]);
     }
 
     async escreverArquivo(content) {
@@ -29,21 +29,61 @@ class Database {
         return true;
     }
 
+    async obterProximoId() {
+        const dados = await this.obterDadosArquivo() || [];
+        if (dados.length === 0) {
+            return 1;
+        }
+
+        return (Math.max(...dados.map(item => parseInt(item.id))) || 0) + 1;
+
+    }
+
     async cadastrar(heroi) {
         const dados = await this.obterDadosArquivo() || [];
-        const id = heroi.id <= 2 ? heroi.id : Date.now();
-        Object.assign({ id }, { ...heroi });
-        const dadosAtualizados = [...dados, heroi]
+        const id = await this.obterProximoId();
+        const dadosAtualizados = [...dados, { ...heroi, id }]
         return this.escreverArquivo(JSON.stringify(dadosAtualizados));
     }
 
     async listar(id) {
         const dados = await this.obterDadosArquivo();
-        if (id) {
-            return dados.filter(item => item.id === id);
+        if (parseInt(id)) {
+            return dados.filter(item => parseInt(item.id) === parseInt(id));
         }
 
         return dados;
+    }
+
+    async atualizar(id, heroi) {
+        const dados = await this.obterDadosArquivo();
+
+        if (!parseInt(id)) {
+            throw new Error('Id não informado')
+        }
+
+        const index = dados.findIndex(item => item.id === parseInt(id));
+        if (index < 0) {
+            throw new Error(`Herói não encontrado com o id: ${id}`);
+        }
+        const updatedHeroi = { ...heroi, id };
+        dados[index] = updatedHeroi;
+
+        await this.escreverArquivo(JSON.stringify(dados));
+
+        return updatedHeroi;
+
+    }
+
+    async remover(id) {
+        const dados = await this.obterDadosArquivo();
+        if (parseInt(id)) {
+            const novosDados = dados.filter(item => parseInt(item.id) !== parseInt(id));
+            return this.escreverArquivo(JSON.stringify(novosDados));
+        }
+
+        return this.limparArquivo();
+
     }
 }
 
